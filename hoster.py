@@ -7,7 +7,7 @@ port = 38923
 s = socket.socket()
 s.bind((host, port))
 s.listen(5)
-buffer=1024
+buffer = 1024
 
 connections = []
 names = []
@@ -40,9 +40,10 @@ def accept_connections():
 def relay(conn, index):
     num = 0
     while True:
-        try:data = conn.recv(buffer)
+        try:
+            data = conn.recv(buffer)
         except ConnectionResetError:
-            
+
             connections.remove(conn)
             print(names[index - num] + " has left the server!")
             names.remove(names[index - num])
@@ -50,7 +51,7 @@ def relay(conn, index):
 
             for connection in connections:
                 connection.send(str.encode("[NAME_LIST]" + "ㅤ".join(names)))
-                
+
             break
 
         for connection in connections:
@@ -58,5 +59,6 @@ def relay(conn, index):
                 connection.send(data)
 
         chat_log.append(data.decode())
+
 
 accept_connections()
